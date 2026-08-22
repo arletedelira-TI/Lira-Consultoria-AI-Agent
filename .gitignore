@@ -1,0 +1,19 @@
+# Ambiente virtual
+venv/
+.venv/
+
+#Variáveis de ambiente
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# ChromaDB
+vectorstore/
+
+# Vs code
+.vscode/
+
+# Sistema operacional
+.DS_Store
