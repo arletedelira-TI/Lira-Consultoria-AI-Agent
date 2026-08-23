@@ -50,16 +50,19 @@ with tab3:
     if user_input := st.chat_input("Dúvidas sobre erros ORA-, licenciamento ou sizing?"):
         st.session_state.messages.append({"role": "user", "content": user_input})
         
-        with st.chat_message("user"):
-            st.markdown(user_input)
-
         with st.chat_message("assistant"):
             with st.spinner("Consultando a documentação oficial da Lira..."):
                 try:
                     chain = get_chain()
                     res = chain.invoke({"input": user_input})
-                    answer = res["answer"]
+                    
+                    # Tratamento seguro para capturar a resposta independentemente da chave do dicionário
+                    if isinstance(res, dict):
+                        answer = res.get("answer") or res.get("text") or res.get("output") or str(res)
+                    else:
+                        answer = str(res)
+                        
                     st.markdown(answer)
                     st.session_state.messages.append({"role": "assistant", "content": answer})
                 except Exception as e:
-                    st.error(f"Erro ao processar a resposta. Verifique seu token e a conexão: {e}")
+                    st.error(f"Erro ao processar a resposta: {e}")
