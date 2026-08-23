@@ -3,6 +3,5 @@ langchain==0.3.30
 langchain-core==0.3.85
 langchain-community==0.3.21
 langchain-google-genai==2.0.10
-chromadb==0.5.5
 python-dotenv==1.0.1
 pydantic==2.13.4
