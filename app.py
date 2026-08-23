@@ -37,32 +37,39 @@ with tab2:
 with tab3:
     st.markdown("### Base de Conhecimento e Suporte")
 
-    # Inicializa o histórico do chat
+    # Inicializa o histórico do chat na sessão
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Exibe as mensagens anteriores
+    # Exibe todas as mensagens armazenadas no histórico do chat
     for msg in st.session_state.messages:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
-    # Captura o input do usuário
+    # Captura o input do usuário na parte inferior da aba
     if user_input := st.chat_input("Dúvidas sobre erros ORA-, licenciamento ou sizing?"):
+        # Adiciona a mensagem do usuário imediatamente ao histórico e exibe na tela
         st.session_state.messages.append({"role": "user", "content": user_input})
+        with st.chat_message("user"):
+            st.markdown(user_input)
         
+        # Processa a resposta do assistente
         with st.chat_message("assistant"):
             with st.spinner("Consultando a documentação oficial da Lira..."):
                 try:
                     chain = get_chain()
                     res = chain.invoke({"input": user_input})
                     
-                    # Tratamento seguro para capturar a resposta independentemente da chave do dicionário
+                    # Tratamento seguro para capturar a resposta
                     if isinstance(res, dict):
                         answer = res.get("answer") or res.get("text") or res.get("output") or str(res)
                     else:
                         answer = str(res)
                         
                     st.markdown(answer)
+                    # Adiciona a resposta do assistente ao histórico
                     st.session_state.messages.append({"role": "assistant", "content": answer})
                 except Exception as e:
-                    st.error(f"Erro ao processar a resposta: {e}")
+                    error_msg = f"Erro ao processar a resposta: {e}"
+                    st.error(error_msg)
+                    st.session_state.messages.append({"role": "assistant", "content": error_msg})
