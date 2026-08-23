@@ -1,20 +1,24 @@
-# Lira Consultoria - Assistente RAG para Suporte Técnico Oracle
+# Lira Consultoria AI Agent
 
-> Projeto desenvolvido para o desafio **Oracle Next Education (ONE)** em parceria com a **Alura**, utilizando **Inteligência Artificial Generativa** e a arquitetura **Retrieval-Augmented Generation (RAG)** para responder consultas técnicas sobre produtos Oracle a partir de uma base de conhecimento vetorial.
+> Assistente inteligente baseado em **Retrieval-Augmented Generation (RAG)** para consulta de documentação técnica Oracle, desenvolvido com **LangChain**, **ChromaDB** e **Large Language Models (LLMs)**.
 
----
-
-## 📖 Sobre o Projeto
-
-Este projeto nasceu de uma experiência pessoal.
-
-Durante três anos atuei como **Solution Engineer na Oracle**, trabalhando com consultoria técnica e pré-vendas para soluções de Banco de Dados. Um dos maiores desafios da função era navegar por uma grande quantidade de documentação técnica e regras de licenciamento para responder rapidamente às necessidades de clientes e equipes comerciais.
-
-Com o conhecimento adquirido no programa **Oracle Next Education**, desenvolvi este assistente para demonstrar como a IA Generativa pode transformar documentação técnica em uma base de conhecimento pesquisável, oferecendo respostas contextualizadas por meio da arquitetura **RAG**.
+Projeto desenvolvido durante o programa **Oracle Next Education (ONE)** em parceria com a **Alura**, com o objetivo de demonstrar a aplicação de IA Generativa na construção de assistentes especializados para suporte técnico.
 
 ---
 
-## 🚀 Tecnologias
+# 📖 Sobre o Projeto
+
+A motivação para este projeto surgiu da minha experiência profissional na **Oracle**, meu **primeiro emprego na área de tecnologia**, onde atuei como **Solution Engineer** por três anos.
+
+Nesse período, trabalhei com consultoria técnica e pré-vendas para soluções de Banco de Dados, apoiando clientes e equipes comerciais na avaliação de arquiteturas, licenciamento e produtos Oracle. A rotina envolvia consultar uma extensa documentação técnica para localizar informações específicas e responder rapidamente a diferentes cenários de negócio.
+
+Este projeto reproduz esse contexto por meio de uma arquitetura **RAG (Retrieval-Augmented Generation)**, permitindo que um modelo de linguagem consulte uma base vetorial construída a partir da documentação técnica antes de gerar uma resposta. O resultado é um assistente capaz de fornecer respostas contextualizadas, reduzindo alucinações e melhorando a precisão das informações.
+
+Além de representar uma aplicação prática dos conhecimentos adquiridos no **Oracle Next Education (ONE)**, o projeto demonstra como técnicas modernas de IA podem ser utilizadas para organizar e disponibilizar conhecimento técnico de forma eficiente.
+
+---
+
+# 🚀 Tecnologias
 
 * Python 3.12
 * Streamlit
@@ -27,106 +31,117 @@ Com o conhecimento adquirido no programa **Oracle Next Education**, desenvolvi e
 
 ---
 
-## 🏗 Arquitetura
+# 🌿 Versões do Projeto
+
+O projeto possui duas implementações, adaptadas para diferentes cenários de execução.
+
+## Branch `main`
+
+Versão destinada à execução local.
+
+**Stack utilizada:**
+
+* Ollama
+* Microsoft Phi-3
+* ChromaDB
+* LangChain
+* Streamlit
+
+**Características**
+
+* Execução totalmente local.
+* Não depende de APIs externas.
+* Ideal para desenvolvimento, estudos e experimentação.
+
+---
+
+## Branch `cloud-version`
+
+Versão preparada para implantação no **Streamlit Community Cloud**.
+
+**Stack utilizada:**
+
+* Google Gemini API
+* ChromaDB
+* LangChain
+* Streamlit
+
+**Características**
+
+* Execução em nuvem.
+* Configuração por meio de Secrets do Streamlit.
+* Não requer instalação do Ollama.
+
+---
+
+# 🏗 Arquitetura
 
 ```text
-Usuário
-   │
-   ▼
-Streamlit
-   │
-   ▼
-Pipeline RAG (LangChain)
-   │
-   ├── Retriever (ChromaDB)
-   └── LLM (Phi-3 via Ollama)
-   │
-   ▼
-Resposta contextualizada
+                 Pergunta do usuário
+                         │
+                         ▼
+                    Streamlit
+                         │
+                         ▼
+                 Pipeline RAG
+                 (LangChain)
+                         │
+          ┌──────────────┴──────────────┐
+          ▼                             ▼
+ Recuperação de contexto          Modelo de Linguagem
+      (ChromaDB)             (Phi-3 ou Gemini)
+          │                             │
+          └──────────────┬──────────────┘
+                         ▼
+              Resposta contextualizada
 ```
 
 ---
 
-## 📂 Estrutura do Projeto
+# ⚙️ Funcionamento
 
-```text
-LIRA-CONSULTORIA-AGENT/
-├── data/                  # Base de conhecimento (PDFs)
-├── src/
-│   ├── embeddings.py
-│   ├── prompts.py
-│   ├── rag.py
-│   └── vectorstore.py
-├── vectorstore/           # Banco vetorial persistido
-├── app.py
-├── requirements.txt
-└── README.md
-```
+1. A documentação técnica é processada e convertida em embeddings.
+2. Os embeddings são armazenados no ChromaDB.
+3. A pergunta do usuário é convertida em representação vetorial.
+4. O retriever recupera os documentos semanticamente mais relevantes.
+5. O contexto recuperado é enviado ao modelo de linguagem.
+6. O modelo gera uma resposta fundamentada na documentação disponível.
 
 ---
 
-## ⚙️ Como Executar
+# ✨ Principais Recursos
 
-```bash
-# Clone o projeto
-git clone https://github.com/seu-usuario/LIRA-CONSULTORIA-AGENT.git
-
-cd LIRA-CONSULTORIA-AGENT
-
-# Crie um ambiente virtual
-python -m venv .venv
-
-# Ative o ambiente
-source .venv/bin/activate   # Linux/macOS
-# .venv\Scripts\activate    # Windows
-
-# Instale as dependências
-pip install -r requirements.txt
-
-# Baixe o modelo
-ollama pull phi3
-
-# Execute a aplicação
-streamlit run app.py
-```
+* Arquitetura **Retrieval-Augmented Generation (RAG)**.
+* Base vetorial persistente com **ChromaDB**.
+* Busca semântica utilizando **Sentence Transformers**.
+* Interface web desenvolvida em **Streamlit**.
+* Estrutura modular baseada em **LangChain**.
+* Suporte para execução local ou em nuvem.
+* Fácil expansão da base de conhecimento.
 
 ---
 
-## 💡 Como Funciona
+# 🎯 Objetivo
 
-1. A documentação técnica é convertida em embeddings.
-2. Os vetores são armazenados no **ChromaDB**.
-3. A pergunta do usuário é comparada com a base vetorial.
-4. Os documentos mais relevantes são recuperados.
-5. O modelo **Phi-3** gera uma resposta utilizando o contexto.
+Demonstrar a aplicação prática de Inteligência Artificial Generativa em um cenário corporativo de suporte técnico, utilizando uma arquitetura RAG para transformar documentação Oracle em uma base de conhecimento consultável por linguagem natural.
+
+O projeto também evidencia a integração entre recuperação de informação, bancos vetoriais e grandes modelos de linguagem na construção de assistentes especializados.
 
 ---
 
-## ✨ Diferenciais
-
-* Arquitetura **RAG** executada localmente.
-* Sem dependência de APIs pagas.
-* Banco vetorial persistente com ChromaDB.
-* Embeddings gerados com Sentence Transformers.
-* Estrutura modular para expansão da base de conhecimento.
-* Base composta por documentação Oracle e materiais internos da consultoria.
-
----
-
-## 🎯 Objetivo
-
-Este projeto demonstra a aplicação prática de IA Generativa para resolver um problema real: facilitar o acesso ao conhecimento técnico em ambientes com grande volume de documentação, unindo minha experiência profissional na Oracle aos conhecimentos adquiridos durante o **Oracle Next Education (ONE)**.
-
----
-
-## 👩‍💻 Autora
+# 👩‍💻 Autora
 
 **Arlete**
 
-Ex-Solution Engineer na Oracle, com experiência em consultoria técnica e pré-vendas para soluções de Banco de Dados. Atualmente direcionando a carreira para Inteligência Artificial, Data Science e Computação em Nuvem por meio do programa **Oracle Next Education (ONE)**.
+Profissional em transição para as áreas de Inteligência Artificial, Ciência de Dados e Computação em Nuvem.
+
+Atuou como **Solution Engineer na Oracle**, seu primeiro cargo na área de tecnologia, adquirindo experiência em consultoria técnica, pré-vendas e soluções de Banco de Dados. Atualmente desenvolve projetos focados em IA Generativa, LLMs, arquiteturas RAG e Machine Learning.
+
+linkedin:
 
 ---
 
-## 📄 Licença
+# 📄 Licença
 
-Projeto desenvolvido para fins educacionais como parte do desafio **Oracle Next Education (ONE)** em parceria com a **Alura**.
+Projeto desenvolvido para fins educacionais como parte do programa **Oracle Next Education (ONE)** em parceria com a **Alura**.
+
