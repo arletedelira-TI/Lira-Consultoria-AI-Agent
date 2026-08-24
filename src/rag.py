@@ -2,9 +2,9 @@ import os
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-# Caminho raiz padrão compatível com LangChain 0.3+
-from langchain.chains import create_retrieval_chain
-from langchain.chains.combine_documents import create_stuff_documents_chain
+# Usando o pacote classic para as cadeias modernas do LangChain v1+
+from langchain_classic.chains import create_retrieval_chain
+from langchain_classic.chains.combine_documents import create_stuff_documents_chain
 
 from src.vectorstore import load_vectorstore
 from src.prompts import get_rag_prompt
