@@ -2,8 +2,8 @@ import os
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-# Imports atualizados e unificados para LangChain 0.3+
-from langchain.chains.retrieval import create_retrieval_chain
+# Caminho raiz padrão compatível com LangChain 0.3+
+from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 
 from src.vectorstore import load_vectorstore
@@ -18,9 +18,8 @@ def build_rag_chain():
     retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
 
     print("Conectando ao Google Gemini...")
-    # Usamos o gemini-1.5-flash, que é rápido, gratuito para uso de desenvolvimento e ideal para chat RAG
     llm = ChatGoogleGenerativeAI(
-        model="gemini-3.6-flash",
+        model="gemini-1.5-flash",
         temperature=0.1,
         google_api_key=os.getenv("GOOGLE_API_KEY")
     )
@@ -30,5 +29,5 @@ def build_rag_chain():
     question_answer_chain = create_stuff_documents_chain(llm, prompt)
     rag_chain = create_retrieval_chain(retriever, question_answer_chain)
     
-    print("Cadeia RAG pronta com sucesso na nuvem!")
+    print("Cadeia RAG pronta com sucesso!")
     return rag_chain
