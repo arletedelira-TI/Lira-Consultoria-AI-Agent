@@ -17,9 +17,9 @@ def build_rag_chain():
     print("Conectando ao Google Gemini...")
     # Usamos o gemini-1.5-flash, que é rápido, gratuito para uso de desenvolvimento e ideal para chat RAG
     llm = ChatGoogleGenerativeAI(
-        model="gemini-1.5-flash",
-        temperature=0.1,
-        google_api_key=os.getenv("GOOGLE_API_KEY")
+    model="gemini-3.6-flash",
+    temperature=0.1,
+    google_api_key=os.getenv("GOOGLE_API_KEY")
     )
 
     print("Montando prompt e correntes RAG...")
