@@ -2,6 +2,6 @@ streamlit==1.38.0
 langchain-core==0.3.28
 langchain-community==0.3.7
 langchain-google-genai==2.0.5
-langchain-classic
+langchain-classic>=1.0.0
 python-dotenv==1.0.1
 pydantic==2.10.2
